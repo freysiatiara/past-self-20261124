@@ -64,6 +64,12 @@ def main():
     parent = os.path.dirname(path)
     if parent:
         os.makedirs(parent, exist_ok=True)
+        if not os.access(parent, os.W_OK):
+            print(
+                "error: output directory %s is not writable" % parent,
+                file=sys.stderr,
+            )
+            return 1
 
     with open(path, "w", encoding="utf-8", newline="\n") as handle:
         handle.write(text)
